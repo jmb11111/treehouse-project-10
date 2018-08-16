@@ -23,7 +23,7 @@ router.get('/', function (req, res, next) {
 
 
 router.get('/new', function (req, res, next) {
-  res.render("new_book", { book: Book.build(), title: "New Book" });
+  res.render("books/new_book", { book: Book.build(), title: "New Book" });
 });
 
 /* POST create article. */
@@ -33,7 +33,7 @@ router.post('/new', function (req, res, next) {
   }).catch(function (error) {
     if (error.name === "SequelizeValidationError") {
       console.log(error.message);
-      res.render("new_book", { book: Book.build(req.body), errors: error.errors,error:error.errors[0].message, title: "New Book" })
+      res.render("books/new_book", { book: Book.build(req.body), errors: error.errors,error:error.errors[0].message, title: "New Book" })
       
     } else {
       throw error;
