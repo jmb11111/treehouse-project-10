@@ -1,9 +1,10 @@
-var express = require('express');
-var router = express.Router();
-const sequelize = require('sequelize');
-// var dateFormat = require('dateformat');
+const express = require('express');
+const router = express.Router();
+// const Sequelize = require('sequelize');
 const Book = require("../models").Book;
-
+var path = require('path'); 
+const app = express();
+app.use(express.static(path.join(__dirname, 'public')));
 
 // router.get('/all-books', function(req, res, next) {
 //     res.render("/books/all_books");
@@ -13,11 +14,20 @@ const Book = require("../models").Book;
 router.get('/', function(req, res, next) {
   Book.findAll().then(function(books){
     res.render("books/all_books", {books: books, title: "My Awesome Blog" });
-  })
+  }).catch(function(error){
+    res.send(500, error);
+ });
+});
+
+/* Create a new book form. */
+
+
+router.get('/new-book', function(req, res, next) {
+  res.render("new_book", {book: Book.build(), title: "New Book"});
 });
 
 /* POST create article. */
-router.post('/', function(req, res, next) {
+router.post('/new-book', function(req, res, next) {
 
     Book.create(req.body).then(function(book){
       console.log(book);
@@ -26,10 +36,27 @@ router.post('/', function(req, res, next) {
   })
 });
 
-/* Create a new article form. */
-router.get('/new-book', function(req, res, next) {
-  res.render("books/new_book", {book: Book.build(), title: "New Article"});
+/* GET individual book. */
+router.get("/book_detail/:id", function(req, res, next){
+  Book.findById(req.params.id).then(function(book){
+    res.render("books/book_detail", {book: book, title: book.title});
+  })
 });
+
+
+/* PUT update book. */
+router.put("/book_detail/:id", function(req, res, next){
+  Book.findById(req.params.id).then(function(book){
+      return book.update(req.body).then(function() {
+        res.redirect("/books/"); 
+      })
+    })
+});
+
+
+
+
+
 
 // /* Edit article form. */
 // router.get("/:id/edit", function(req, res, next){
@@ -47,22 +74,7 @@ router.get('/new-book', function(req, res, next) {
 // });
 
 
-// /* GET individual article. */
-// router.get("/:id", function(req, res, next){
-//   Book.findById(req.params.id).then(function(article){
-//     res.render("books/show", {article: article, title: article.title});
-//   })
-// });
 
-// /* PUT update article. */
-// router.put("/:id", function(req, res, next){
-//   var article = find(req.params.id);
-//   article.title = req.body.title;
-//   article.body = req.body.body;
-//   article.author = req.body.author;
-  
-//   res.redirect("/books/" + article.id);    
-// });
 
 // /* DELETE individual article. */
 // router.delete("/:id", function(req, res, next){

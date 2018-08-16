@@ -4,7 +4,8 @@ const app = express();
 var bodyParser = require('body-parser');
 var methodOverride = require('method-override')
 var cookieParser = require('cookie-parser');
-
+var path = require('path'); 
+const routes = require('../routes/index');
 
 app.use(express.static('public'));
 
@@ -12,9 +13,10 @@ app.set('view engine', 'pug');
 app.use(methodOverride('_method'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cookieParser());
-// app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'public')));
 
+app.use(cookieParser());
+app.use("/", routes)
 app.use('/books', books);
 
 
