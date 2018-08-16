@@ -1,7 +1,7 @@
 extends ./layout
 block main
     h1= title
-    h2= error
+    p(style={color: 'red'})=error
     form(action="/books/new-book", method="post")
       p
         label(for='title') Title

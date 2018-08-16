@@ -1,6 +1,7 @@
 extends ../layout
 block main
     h1 Patron:#{patron.first_name} #{patron.last_name}
+    p(style={color: 'red'})=error
     form(action="/patrons/patron_detail/" + patron.id + "?_method=PUT", method="post")
       include patron_form
       p

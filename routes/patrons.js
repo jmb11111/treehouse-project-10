@@ -30,8 +30,8 @@ router.get('/new', function (req, res, next) {
       res.redirect("/patrons/")
     }).catch(function (error) {
       if (error.name === "SequelizeValidationError") {
-        console.log(error.message);
-        res.render("patrons/new_patron", { patron: Patron.build(req.body), errors: error.errors,error:error.message, title: "New Patron" })
+        console.log(error.errors[0].message);
+        res.render("patrons/new_patron", { patron: Patron.build(req.body), errors: error.errors, error:error.errors[0].message, title: "New Patron" })
         
       } else {
         throw error;
@@ -59,7 +59,17 @@ router.put("/patron_detail/:id", function (req, res, next) {
     Patron.findById(req.params.id).then(function (patron) {
       return patron.update(req.body).then(function () {
         res.redirect("/patrons/");
-      })
+      }).catch(function (error) {
+        if (error.name === "SequelizeValidationError") {
+          console.log(error.errors[0].message);
+          res.render("patrons/patron_detail", { patron: patron, errors: error.errors, error:error.errors[0].message, title: "New Patron" })
+          
+        } else {
+          throw error;
+        }
+      }).catch(function (error) {
+        res.send(500, error);
+      });
     })
   });
   
@@ -67,7 +77,7 @@ router.put("/patron_detail/:id", function (req, res, next) {
 router.get("/patron-detail/:id/delete", function(req, res, next){
     Patron.findById(req.params.id).then(function(patron){  
       if(patron) {
-        res.render("delete", { patron: patron, name: patron.first_name})
+        res.render("delete", {patron: patron})
       } else {
         res.sendStatus(404);
       }

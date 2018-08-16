@@ -26,7 +26,7 @@ module.exports = (sequelize, DataTypes) => {
     address: {type: DataTypes.STRING,
       validate:{
         notEmpty: {
-      msg: 'address  is required!'
+      msg: 'Address  is required!'
       }
     }
   },  
@@ -34,13 +34,16 @@ module.exports = (sequelize, DataTypes) => {
       validate:{
         notEmpty: {
       msg: 'Email is required!'
-      }
+      },
+        isEmail: {
+          msg: 'Please entere a valid email ex "foo@par.com"'
+        }
     }
   },  
     library_id:{type: DataTypes.INTEGER,
       validate:{
         notEmpty: {
-      msg: 'Year published is required!'
+      msg: 'ID is required!'
         },
         isInt: {
           msg:'Please Enter A Valid number'
@@ -50,7 +53,7 @@ module.exports = (sequelize, DataTypes) => {
     zip:{type: DataTypes.INTEGER,
       validate:{
         notEmpty: {
-      msg: 'Year published is required!'
+      msg: 'Zip  is required!'
         },
         isInt: {
           msg:'Please Enter A Valid number'

@@ -1,6 +1,7 @@
 extends ../layout
 block main
     h1 New Patron
+    p(style={color: 'red'})=error
     form(action="/patrons/new", method="post")
       include patron_form
       p
