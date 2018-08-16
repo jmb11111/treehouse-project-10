@@ -1,0 +1,11 @@
+extends ./layout
+block main
+    h1= title
+    p 
+        | Are you sure you want to delete 
+        em #{patron.first_name +' '+ patron.last_name}
+        | ?
+    form(action="/patrons/patron-detail/" + patron.id + "?_method=DELETE", method="post")
+        a(href="/patrons/patron-detail/" + patron.id) No! Take me back!
+        | 
+        input(type="submit", value = "Yes, I am")

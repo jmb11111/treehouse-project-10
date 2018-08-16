@@ -1,6 +1,6 @@
 extends ../layout
 block main
-    h1 Book: A Brief History of Time
+    h1 Book: #{book.title}
     form(action="/books/book_detail/" + book.id + "?_method=PUT", method="post")
       p
         label(for='title') Title

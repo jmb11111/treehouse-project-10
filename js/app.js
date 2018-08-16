@@ -1,5 +1,6 @@
 const express = require('express');
-const books = require('../routes/books')
+const books = require('../routes/books');
+const patrons = require('../routes/patrons');
 const app = express();
 var bodyParser = require('body-parser');
 var methodOverride = require('method-override')
@@ -18,7 +19,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(cookieParser());
 app.use("/", routes)
 app.use('/books', books);
-
+app.use('/patrons', patrons);
 
 app.get('/', (req, res)=>{
     res.render('index');
@@ -30,14 +31,6 @@ app.get('/all-loans', (req, res)=>{
     res.render('loans/all_loans');
 })
 
-app.get('/all-patrons', (req, res)=>{
-    res.render('patrons/all_patrons');
-})
-
-
-app.get('/patron-detail', (req, res)=>{
-    res.render('patrons/patron_detail');
-})
 
 
 app.listen(3030);

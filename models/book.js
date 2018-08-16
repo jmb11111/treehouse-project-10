@@ -3,6 +3,12 @@
 //genre a string and first_published an integer
 module.exports = (sequelize, DataTypes) => {
   var Book = sequelize.define('Book', {
+    id: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      allowNull: false,
+      autoIncrement: true,
+    },
     title: {type: DataTypes.STRING,
     validate:{
         notEmpty: {
@@ -49,12 +55,7 @@ module.exports = (sequelize, DataTypes) => {
 // }
 
 
-// id: {
-//   type: DataTypes.INTEGER,
-//   primaryKey: true,
-//   allowNull: false,
-//   autoIncrement: true,
-// },
+
 // title: {
 //   type: DataTypes.STRING,
 //   validate: {

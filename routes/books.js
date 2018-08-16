@@ -22,12 +22,12 @@ router.get('/', function (req, res, next) {
 /* Create a new book form. */
 
 
-router.get('/new-book', function (req, res, next) {
+router.get('/new', function (req, res, next) {
   res.render("new_book", { book: Book.build(), title: "New Book" });
 });
 
 /* POST create article. */
-router.post('/new-book', function (req, res, next) {
+router.post('/new', function (req, res, next) {
   Book.create(req.body).then(function () {
     res.redirect("/books/")
   }).catch(function (error) {
@@ -67,6 +67,7 @@ router.put("/book_detail/:id", function (req, res, next) {
     })
   })
 });
+
 
 
 
