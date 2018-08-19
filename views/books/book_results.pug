@@ -29,7 +29,3 @@ block main
           td= book.author
           td= book.genre
           td= book.first_published
-    p Total Results #{count}
-    p Page 
-      each page, index in pageMaker
-        a(href=`/books/page/${index+1}`) #{index+1}      
