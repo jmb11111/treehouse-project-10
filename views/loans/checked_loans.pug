@@ -2,14 +2,14 @@ extends ../layout
 block main
     h1 Checked Out Books
     p
-      a.button(href='new_loan.html') Create New Loan
+      a.button(href='/loans/new') Create New Loan
     p
       | Filters
-      a(href='all_loans.html') All
+      a(href='/loans') All
       | |
-      a(href='overdue_loans.html') Overdue
+      a(href='/loans/overdue_loans') Overdue
       | |
-      a(href='checked_loans.html') Checked Out
+      a(href='/loans/checked_loans') Checked Out
     table
       thead
         tr
@@ -25,7 +25,7 @@ block main
           each book in books
             if book.id === loan.book_id
               td
-                a(href='book_detail.html')= book.title
+                a(href=`/books/book_detail/${book.id}`)= book.title
               each patron in patrons
                 if patron.id === loan.PatronId
                   td

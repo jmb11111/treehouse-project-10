@@ -40,7 +40,10 @@ module.exports = (sequelize, DataTypes) => {
         }
       }
     } 
-  }, {});
+  }, {
+    timestamps: false
+
+  });
   Book.associate = function(models) {
     // associations can be defined here
   };

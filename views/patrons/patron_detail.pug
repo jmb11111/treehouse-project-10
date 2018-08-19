@@ -24,7 +24,7 @@ block main
              tr
               if book.id === loan.book_id
                 td
-                  a(href='book_detail.html')= book.title
+                  a(href=`/books/book_detail/${book.id}`)= book.title
                       td
                         a(href=`/patrons/patron-detail/${patron.id}`) #{patron.first_name+' '+patron.last_name}
                       td=loan.loaned_on

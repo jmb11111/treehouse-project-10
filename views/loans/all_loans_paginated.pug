@@ -36,3 +36,7 @@ block main
                   if loan.returned_on === null
                     td
                       a.button(href=`/loans/loan_update/${loan.id}`) Return Book
+    p Total Results #{count}
+    p Page 
+      each page, index in pageMaker
+        a(href=`/loans/page/${index+1}`) #{index+1}      

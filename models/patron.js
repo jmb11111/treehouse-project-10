@@ -60,7 +60,10 @@ module.exports = (sequelize, DataTypes) => {
         }
       }
     } 
-  }, {});
+  }, {
+    timestamps: false
+
+  });
   Patron.associate = function(models) {
     // associations can be defined here
   };

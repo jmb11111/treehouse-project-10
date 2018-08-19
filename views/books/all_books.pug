@@ -7,9 +7,9 @@ block main
       | Filters
       a(href='/books/all-books') All
       | |
-      a(href='overdue_books.html') Overdue
+      a(href='/books/overdue_books') Overdue
       | |
-      a(href='checked_books.html') Checked Out
+      a(href='/books/checked_books') Checked Out
     table
       thead
         tr
@@ -21,7 +21,11 @@ block main
       each book in books
         tr
           td
-            a(href=`books/book_detail/${book.id}`)= book.title
+            a(href=`/books/book_detail/${book.id}`)= book.title
           td= book.author
           td= book.genre
           td= book.first_published
+    p Total Results #{count}
+    p Page 
+      each page, index in pageMaker
+        a(href=`/books/page/${index+1}`) #{index+1}      

@@ -53,7 +53,10 @@ module.exports = (sequelize, DataTypes) => {
                 }
             }
         }
-    }, {});
+    }, {
+        timestamps: false
+
+    });
     Loan.associate = function (models) {
         Loan.belongsTo(models.Patron);
 
