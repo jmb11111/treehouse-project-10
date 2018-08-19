@@ -68,13 +68,6 @@ router.get("/search", function (req, res, next) {
   });
 });
 
-/* POST create article. */
-// router.get('/search/', function (req, res, next) {
-//     console.log(req.body)
-//     res.redirect("/loans/")
-//   });
-
-
 
 
 
