@@ -1,0 +1,25 @@
+extends ../layout
+block main
+    h1 Patron: Return Book
+      each book in books
+        if loan.book_id === book.id
+          each patron in patrons
+            if loan.PatronId === patron.id
+              p
+                strong Book Title:
+                | #{book.title}
+              p
+                strong Loaned By:
+                | #{patron.first_name + ' ' + patron.last_name}
+              p
+                strong Loaned On:
+                | #{loan.loaned_on}
+              p
+                strong Return By:
+                | #{loan.due_on}
+              form(action="/loans/loan_update/" + loan.id + "?_method=PUT", method="post")
+                p
+                  label(for='returned_on') Returned on:
+                  input#returned_on(type='date',name="returned_on", value= loan.returned_ond)
+                p
+                  input(type='submit', value='Return Book')

@@ -2,7 +2,7 @@ extends ../layout
 block main
     h1= title
     p(style={color: 'red'})=error
-    form(action="/books/new-book", method="post")
+    form(action="/books/new", method="post")
       p
         label(for='title') Title
         input#title(type= 'text',name='title', value= book.title)

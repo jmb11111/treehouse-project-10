@@ -1,6 +1,8 @@
 const express = require('express');
 const books = require('../routes/books');
 const patrons = require('../routes/patrons');
+const loans = require('../routes/loans');
+
 const app = express();
 var bodyParser = require('body-parser');
 var methodOverride = require('method-override')
@@ -20,6 +22,7 @@ app.use(cookieParser());
 app.use("/", routes)
 app.use('/books', books);
 app.use('/patrons', patrons);
+app.use('/loans', loans);
 
 app.get('/', (req, res)=>{
     res.render('index');

@@ -29,12 +29,15 @@ block main
           th Action
       tbody
         tr
+        each loan in loans
           td
-            a(href='book_detail.html') A Brief History of Time
-          td
-            a(href='patron_detail.html') Andrew Chalkley
-          td 2015-12-12
-          td 2015-12-19
-          td
-          td
-            a.button(href='return_book.html') Return Book
+            a(href='book_detail.html')= book.title
+            each patron in patrons
+              if patron.id === loan.PatronId
+                td
+                  a(href=`/patrons/patron-detail/${patron.id}`) #{patron.first_name+' '+patron.last_name}
+                td=loan.loaned_on
+                td=loan.due_on
+                td
+                td
+                  a.button(href='return_book.html') Return Book

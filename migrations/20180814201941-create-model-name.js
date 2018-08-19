@@ -1,30 +1,24 @@
 'use strict';
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('ModelNames', {
-      id: {
-        allowNull: false,
-        autoIncrement: true,
-        primaryKey: true,
-        type: Sequelize.INTEGER
-      },
-      attribute1: {
-        type: Sequelize.DATA_TYPE
-      },
-      attribute2: {
-        type: Sequelize.DATA_TYPE
-      },
-      createdAt: {
-        allowNull: false,
-        type: Sequelize.DATE
-      },
-      updatedAt: {
-        allowNull: false,
-        type: Sequelize.DATE
+    return queryInterface.addColumn(
+      'Loans',
+      "PatronId",
+      {
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'Patrons', // name of Target model
+          key: 'id', // key in Target model that we're referencing
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'SET NULL',
       }
-    });
+    );
   },
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('ModelNames');
+    return queryInterface.removeColumn(
+      'Loans', // name of Source model
+      'PatronId' // key we want to remove
+    );
   }
 };

@@ -2,7 +2,10 @@ const express = require('express');
 const router = express.Router();
 // const Sequelize = require('sequelize');
 const Patron = require("../models").Patron;
-var path = require('path');
+const Loan = require("../models").Loan;
+const Book = require("../models").Book;
+
+const path = require('path');
 const app = express();
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -44,9 +47,14 @@ router.get('/new', function (req, res, next) {
 
 /* GET individual patron. */
 router.get("/patron-detail/:id", function (req, res, next) {
-    Patron.findById(req.params.id).then(function (patron) {
-    if(patron){
-      res.render("patrons/patron_detail", { patron: patron, name: patron.first_name});
+    Promise.all([Patron.findById(req.params.id), Loan.findAll({
+      where:{
+        PatronId: req.params.id
+      }
+    }),Book.findAll()])
+    .then(function (data) {
+    if(data){
+      res.render("patrons/patron_detail", { patron: data[0], loans: data[1], books: data[2], name: data[0].first_name});
     } else {
     res.send(404);
   }

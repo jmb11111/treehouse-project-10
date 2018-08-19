@@ -2,6 +2,9 @@ const express = require('express');
 const router = express.Router();
 // const Sequelize = require('sequelize');
 const Book = require("../models").Book;
+const Loan = require("../models").Loan;
+const Patron = require("../models").Patron;
+
 var path = require('path');
 const app = express();
 app.use(express.static(path.join(__dirname, 'public')));
@@ -43,11 +46,19 @@ router.post('/new', function (req, res, next) {
   });
 });
 
+
+
 /* GET individual book. */
 router.get("/book_detail/:id", function (req, res, next) {
-  Book.findById(req.params.id).then(function (book) {
-  if(book){
-    res.render("books/book_detail", { book: book, title: book.title });
+  Promise.all([Book.findById(req.params.id),Loan.findAll({
+    where:{
+      book_id: req.params.id
+    }
+  }),Patron.findAll()])
+  .then(function (data) {
+  if(data){
+    console.log(data[1])
+    res.render("books/book_detail", { book: data[0], loans:data[1],patrons:data[2], title: data[0].title });
   } else {
   res.send(404);
 }
