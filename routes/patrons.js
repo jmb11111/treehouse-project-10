@@ -121,14 +121,22 @@ router.get("/patron-detail/:id", function (req, res, next) {
 });
 /* PUT update book. */
 router.put("/patron_detail/:id", function (req, res, next) {
-  Patron.findById(req.params.id).then(function (patron) {
-    return patron.update(req.body).then(function () {
+  Promise.all([Patron.findById(req.params.id), Loan.findAll({
+    where: {
+      PatronId: req.params.id
+    }
+  }), Book.findAll()])
+    .then(function (data) {
+    return data[0].update(req.body).then(function () {
       res.redirect("/patrons/");
     }).catch(function (error) {
       if (error.name === "SequelizeValidationError") {
         console.log(error.errors[0].message);
         res.render("patrons/patron_detail", {
-          patron: patron,
+          patron: data[0],
+          loans: data[1],
+          books: data[2],
+          name: data[0].first_name,
           errors: error.errors,
           error: error.errors[0].message,
           title: "New Patron"

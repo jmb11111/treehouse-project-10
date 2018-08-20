@@ -1,6 +1,7 @@
 extends ../layout
 block main
     h1 Patron: Return Book
+    p(style={color: 'red'})=error
       each book in books
         if loan.book_id === book.id
           each patron in patrons

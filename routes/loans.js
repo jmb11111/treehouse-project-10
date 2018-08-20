@@ -169,16 +169,20 @@ router.get("/loan_update/:id", function (req, res, next) {
 
   /* PUT return loan. */
   router.put("/loan_update/:id", function (req, res, next) {
-    Loan.findById(req.params.id).then(function (loan) {
-      return loan.update(req.body).then(function () {
-          console.log(loan)
+    Promise.all([Loan.findById(req.params.id), Book.findAll(), Patron.findAll()])
+    .then(function (data) {
+      return data[0].update(req.body).then(function () {
         res.redirect("/loans/");
       }).catch(function (error) {
         if (error.name === "SequelizeValidationError") {
           console.log(error.errors[0].message);
           res.render("loans/return_book", { 
-              loans: loan, 
+              loan: data[0], 
               errors: error.errors, 
+              books:data[1], 
+              patrons:data[2],
+              today:today, 
+              title: data[0].title,
               error:error.errors[0].message, 
               title: "New Patron" })
         } else {
