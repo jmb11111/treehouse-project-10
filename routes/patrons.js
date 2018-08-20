@@ -4,7 +4,8 @@ const router = express.Router();
 const Patron = require("../models").Patron;
 const Loan = require("../models").Loan;
 const Book = require("../models").Book;
-
+const Sequelize = require('sequelize');
+const Op = Sequelize.Op
 const path = require('path');
 const app = express();
 app.use(express.static(path.join(__dirname, 'public')));
@@ -38,7 +39,33 @@ router.get('/page/:page', (req, res) => {
     });
 });
 
-
+// search function
+router.get("/search", function (req, res, next) {
+  let  query =(req.query.query)
+   Patron.findAll({
+     attributes: ['first_name', 'last_name', 'address', 'email',"library_id","zip"],
+     where: {
+       [Op.or]: {
+         first_name:{
+             [Op.like]: `%${query}%`
+           },
+         last_name:{
+           [Op.like]: `%${query}%`
+         },
+         library_id:{
+           [Op.like]: `%${query}%`
+         },
+         }
+     }
+   }).then(function (patrons) {
+     res.render("patrons/patron_results", {
+       patrons: patrons,
+       title: "My Awesome Blog"
+     });
+   }).catch(function (error) {
+     res.send(500, error);
+   });
+ });
 
 router.get('/new', function (req, res, next) {
   res.render("patrons/new_patron", {

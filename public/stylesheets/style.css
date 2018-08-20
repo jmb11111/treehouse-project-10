@@ -92,3 +92,15 @@ input {
 input[type=text], select {
   margin-left: 10px;
 }
+
+#searchButton {
+  margin-left: 1em;
+}
+
+#searchField {
+  margin-left: 0em;
+}
+
+#bookButton {
+  margin-left: 1em;
+}

@@ -49,14 +49,21 @@ router.get('/page/:page', function (req, res, next) {
 
 // search function
 router.get("/search", function (req, res, next) {
-  console.log(req.query.query)
+ let  query =(req.query.query)
   Book.findAll({
     attributes: ['title', 'author', 'genre', 'first_published'],
     where: {
-      $or: 
-        Sequelize.where(Sequelize.fn('lower', Sequelize.col('title')),{
-            [Op.like]: `%${req.query.query}%`
-          }),
+      [Op.or]: {
+        title:{
+            [Op.like]: `%${query}%`
+          },
+        author:{
+          [Op.like]: `%${query}%`
+        },
+        genre:{
+          [Op.like]: `%${query}%`
+        },
+        }
     }
   }).then(function (books) {
     res.render("books/book_results", {
