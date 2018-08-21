@@ -51,7 +51,7 @@ router.get('/page/:page', function (req, res, next) {
 router.get("/search", function (req, res, next) {
  let  query =(req.query.query)
   Book.findAll({
-    attributes: ['title', 'author', 'genre', 'first_published'],
+    attributes: ['id','title', 'author', 'genre', 'first_published'],
     where: {
       [Op.or]: {
         title:{
@@ -141,14 +141,21 @@ router.get("/book_detail/:id", function (req, res, next) {
 
 /* PUT update book. */
 router.put("/book_detail/:id", function (req, res, next) {
-  Book.findById(req.params.id).then(function (book) {
-    return book.update(req.body).then(function () {
+  Promise.all([Book.findById(req.params.id), Loan.findAll({
+    where: {
+      book_id: req.params.id
+    }
+  }), Patron.findAll()])
+  .then(function (data) {
+    return data[0].update(req.body).then(function () {
       res.redirect("/books/");
     }).catch(function (error) {
       if (error.name === "SequelizeValidationError") {
         console.log(error.errors[0].message);
         res.render("books/book_detail", {
-          book: book,
+          book: data[0],
+          loans: data[1],
+          patrons: data[2],
           errors: error.errors,
           error: error.errors[0].message,
           title: "New Patron"

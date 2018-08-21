@@ -43,11 +43,11 @@ router.get('/page/:page', (req, res) => {
 router.get("/search", function (req, res, next) {
   let  query =(req.query.query)
    Patron.findAll({
-     attributes: ['first_name', 'last_name', 'address', 'email',"library_id","zip"],
+     attributes: ["id",'first_name', 'last_name', 'address', 'email',"library_id","zip"],
      where: {
        [Op.or]: {
          first_name:{
-             [Op.like]: `%${query}%`
+           [Op.like]: `%${query}%`
            },
          last_name:{
            [Op.like]: `%${query}%`
